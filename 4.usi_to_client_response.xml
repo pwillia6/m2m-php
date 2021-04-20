@@ -1,0 +1,20 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+	<s:Header>
+		<a:Action s:mustUnderstand="1">http://usi.gov.au/2020/ws/VerifyUSIResponse</a:Action>
+		<a:RelatesTo>urn:uuid:f257155c-6b79-4977-922c-95cc764fd5ca</a:RelatesTo>
+		<o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+			<u:Timestamp u:Id="_0">
+				<u:Created>2021-03-16T01:16:21.338Z</u:Created>
+				<u:Expires>2021-03-16T01:21:21.338Z</u:Expires>
+			</u:Timestamp>
+		</o:Security>
+	</s:Header>
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<VerifyUSIResponse xmlns="http://usi.gov.au/2020/ws">
+			<USIStatus>Valid</USIStatus>
+			<FirstName>Match</FirstName>
+			<FamilyName>Match</FamilyName>
+			<DateOfBirth>Match</DateOfBirth>
+		</VerifyUSIResponse>
+	</s:Body>
+</s:Envelope>

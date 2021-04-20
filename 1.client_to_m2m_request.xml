@@ -1,0 +1,66 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+	<s:Header>
+		<a:Action s:mustUnderstand="1">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</a:Action>
+		<a:MessageID>urn:uuid:480b35f2-cbcf-4864-845c-0be5b827e4eb</a:MessageID>
+		<ActivityId CorrelationId="25cf3b7f-93b4-4112-8e16-70714a90885f" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">172f4e0e-9ba7-426f-b876-5b7f60916754</ActivityId>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1" u:Id="_1">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc</a:To>
+		<o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+			<u:Timestamp u:Id="_0">
+				<u:Created>2021-03-16T01:16:01.377Z</u:Created>
+				<u:Expires>2021-03-16T01:21:01.377Z</u:Expires>
+			</u:Timestamp>
+			<o:BinarySecurityToken>
+				<!-- Removed-->
+			</o:BinarySecurityToken>
+			<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+				<SignedInfo>
+					<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+					<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+					<Reference URI="#_0">
+						<Transforms>
+							<Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+						</Transforms>
+						<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+						<DigestValue>96ImAuWd2zIjCRZwdFIChho+T4w=</DigestValue>
+					</Reference>
+					<Reference URI="#_1">
+						<Transforms>
+							<Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+						</Transforms>
+						<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+						<DigestValue>5ePogQD5/baHBf776mJ0QCw7lro=</DigestValue>
+					</Reference>
+				</SignedInfo>
+				<SignatureValue>PoTqqtvtCkbqVf6KwCYuuz+drA2j7M4bBfXMN2tMtSBu4dGiOzPLjWCcrCN2ecXfPSTVtSxn56j9spHxl5x7iUNQCzA92OnzjusQrFknAxcRvegO/GYcPGWrkI4XmtjQ1/FEhtKrpkWPiiJLeqRUM18/ft+f7volBO93JdtVr9LQ/8Z3glreuZi3hWgo/VOxvbY3q9xpvwDcKCEkKiosXxGDZ2y0KqwN9hlKwuG4COrDh7X5RP5F6ODT7dmUjTfjxtkj2zpoAb0FOGzXyx+vsb5azrZtQ5D6rQQpU8BHkaLj3IJcW7x/KMqcS6o+5lDmHB7typzBzuSAc4j6W8v2/g==</SignatureValue>
+				<KeyInfo>
+					<o:SecurityTokenReference>
+						<o:Reference URI="#uuid-027cf64f-f5bd-4765-9e14-fb8604043e1f-2"/>
+					</o:SecurityTokenReference>
+				</KeyInfo>
+			</Signature>
+		</o:Security>
+	</s:Header>
+	<s:Body>
+		<trust:RequestSecurityToken xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+			<wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+				<wsa:EndpointReference xmlns:wsa="http://www.w3.org/2005/08/addressing">
+					<wsa:Address>https://3pt.portal.usi.gov.au/service/usiservice.svc</wsa:Address>
+				</wsa:EndpointReference>
+			</wsp:AppliesTo>
+			<trust:Claims Dialect="http://schemas.xmlsoap.org/ws/2005/05/identity" xmlns:i="http://schemas.xmlsoap.org/ws/2005/05/identity">
+				<i:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/abn" Optional="false"/>
+				<i:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/credentialtype" Optional="false"/>
+			</trust:Claims>
+			<trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</trust:KeyType>
+			<trust:Lifetime>
+				<wsu:Created xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2021-03-16T01:16:01.328Z</wsu:Created>
+				<wsu:Expires xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2021-03-16T02:16:01.328Z</wsu:Expires>
+			</trust:Lifetime>
+			<trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</trust:RequestType>
+			<trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1</trust:TokenType>
+		</trust:RequestSecurityToken>
+	</s:Body>
+</s:Envelope>
