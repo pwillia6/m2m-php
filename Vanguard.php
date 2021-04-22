@@ -67,7 +67,7 @@ class VanguardClient extends SoapHelper
 
         try {
             $response = $this->sendSoapRequest(self::ACTION_ISSUE_VERIFY, $xmlRequest, $this->usiUrl);
-//            file_put_contents('response-usi.xml', $response);
+            file_put_contents('response-usi.xml', $response);
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -122,7 +122,7 @@ class VanguardClient extends SoapHelper
 
         $xml = $this->doc->saveXML();
 
-//        $this->doc->save('request-usi.xml');
+        $this->doc->save('request-usi.xml');
 
         return $this->canonicalize($xml);
     }
@@ -247,8 +247,13 @@ class VanguardClient extends SoapHelper
         $verifyUSI = $this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':VerifyUSI');
         $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':OrgCode', $this->orgCode));
         $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':USI', $this->usi));
-        $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':FirstName', $this->first));
-        $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':FamilyName', $this->family));
+        if ($this->family) {
+            $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':FirstName', $this->first));
+            $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':FamilyName', $this->family));
+        } else {
+            $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':SingleName', $this->first));
+        }
+
         $verifyUSI->appendChild($this->doc->createElementNS(self::NS_USI, self::NS_USI_PREFIX . ':DateOfBirth', $this->dob));
 
         $body->appendChild($verifyUSI);
