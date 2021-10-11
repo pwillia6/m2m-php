@@ -203,7 +203,7 @@ class VanguardClient extends SoapHelper
             try {
                 $dom = new DOMDocument();
                 $dom->loadXML($rawMASResp);
-                $encryptedData = $dom->getElementsByTagName('EncryptedData')[0];
+                $encryptedData = $dom->getElementsByTagName('EncryptedData')->item(0);
                 $s->appendChild($this->doc->importNode($encryptedData, true));
                 $signature = $this->buildSignatureUSI($rawMASResp);
 
@@ -363,7 +363,7 @@ class VanguardClient extends SoapHelper
         $dom->loadXML($rawMASResp);
 
         try {
-            $binarySecret = $dom->getElementsByTagName('BinarySecret')[0];
+            $binarySecret = $dom->getElementsByTagName('BinarySecret')->item(0);
             $signature = $this->getSignatureHmacSha1($signedinfo, base64_decode($binarySecret->nodeValue));
         } catch (Exception $ex) {
             throw $ex;
@@ -377,7 +377,7 @@ class VanguardClient extends SoapHelper
 
         $keyInfo = $this->doc->createElementNS(self::NS_SIGN, self::NS_SIGN_PREFIX . ':KeyInfo');
 
-        $securityTokenRef = $dom->getElementsByTagName('SecurityTokenReference')[1];
+        $securityTokenRef = $dom->getElementsByTagName('SecurityTokenReference')->item(1);
         $tokenRef = $this->doc->importNode($securityTokenRef, true);
         $keyInfo->appendChild($tokenRef);
         $s->appendChild($keyInfo);
