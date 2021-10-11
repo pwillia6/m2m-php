@@ -9,10 +9,11 @@ class AUSKey
     private $salt;
     private $password = '';
 
-    public function __construct($xml, $password = '')
+    public function __construct($xml, $password = '', $id = '')
     {
         $this->xml = $xml;
         $this->password = $password;
+        $this->id = $id;
 
         try {
             $this->parseXml();
@@ -44,19 +45,15 @@ class AUSKey
         $this->credentials = $xml_obj->credentials;
     }
 
-    public function setCredential($idx = 0)
-    {
-        if (!isset($this->credentials->credential[$idx])) {
-            throw new Exception("This credential (" . $idx . ") isn't found in the AUSKey.");
-        }
-        $this->credential_index = $idx;
-    }
-
     public function getCredential()
     {
-        if (!isset($this->credentials->credential[$this->credential_index])) {
-            throw new Exception("This credential (" . $this->credential_index . ") isn't found in the AUSKey.");
+        foreach ($this->credentials->credential as $d => $cred) {
+            foreach ($cred->attributes() as $name => $value) {
+                if ($name=='id' && $value==$this->id) {
+                    return $cred;
+                }
+            }
         }
-        return $this->credentials->credential[$this->credential_index];
+        throw new Exception("This credential (" . $this->id. ") isn't found in the AUSKey.");
     }
 }
