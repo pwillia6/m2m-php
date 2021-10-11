@@ -1,7 +1,5 @@
 <?php
 
-use Composer\CaBundle\CaBundle;
-
 class SoapHelper
 {
 
@@ -110,24 +108,17 @@ class SoapHelper
         );
 
         $curl = curl_init($url);
-
-        $caPathOrFile = CaBundle::getBundledCaBundlePath();
-        if (is_dir($caPathOrFile)) {
-            curl_setopt($curl, CURLOPT_CAPATH, $caPathOrFile);
-        } else {
-            curl_setopt($curl, CURLOPT_CAINFO, $caPathOrFile);
-        }
-
+        
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
 
         curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_DEFAULT);
-        curl_setopt($curl, CURLOPT_SSL_CIPHER_LIST, 'TLSv1.0');
+        //curl_setopt($curl, CURLOPT_SSL_CIPHER_LIST, 'TLSv1.0');
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
