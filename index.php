@@ -1,54 +1,26 @@
 <?php
 
-include "vendor/autoload.php";
+include "VanguardClient.php";
 
-include "Vanguard.php";
-
-
-// MAS-ST service URLs (Production Environment)
-//
-//https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc (SHA1)
-//https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc (SHA2)
-//
-// MAS-ST service URLs (Test Environment)
-//
-//https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc (SHA1)
-//https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc (SHA2)
-
-
-
-
-// Test environment - M2M working but NOT USI >>
-//const ORGCODE = 'VA1803';
-//const USIRUL = 'https://3pt.portal.usi.gov.au/service/usiservice.svc';
-//const VANURL = 'https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc';
-// <<
-
-const ORGCODE = 'VA0094';
-const USIRUL = 'https://portal.usi.gov.au/Service/UsiService.svc';
-const VANURL = 'https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc';
-
-
-const USI = 'GSR3R49PPX';
-const FIRST = 'margaret';
-const FAMILY = 'Michael';
-const DOB = '1990-05-31';
-
-
-$api = new VanguardClient(VANURL, USIRUL, ORGCODE, USI, FIRST, FAMILY, DOB);
-
-// FOR TEST >>
-//$api->loadAuskey('keystore-usi.xml', 'Password1!');
-// <<
-
-// MUST UPDATE KEYSTORE and PASSWORD
-$api->loadAuskey('<KEYSTORE>.xml', '<PASSWORD>');
+$record = array(
+    'OrgCode' => 'VA1803',
+    'USI'     => 'GSR3R49PPX',
+    'FirstName' => 'margaret',
+    'FamilyName' => 'Michael',
+    'DateOfBirth' => '1990-05-31'
+);
 
 try {
-    $token = $api->requestToken();
-    echo "Response from ATO: <br>" . $token;
-    echo "<br><br>";
-    echo "Response from USI: <br>" . $api->verifyUSI($token);
+    $usi = new VanguardClient('TEST', 'keystore-test.xml', 'Password1!', 'ABRD:27809366375_USIMachine');
+    $response = $usi->verifyUSI(
+        $record['OrgCode'], 
+        $record['USI'], 
+        $record['FirstName'], 
+        $record['FamilyName'], 
+        $record['DateOfBirth']
+    /* './' optional path to dump requests and responses */);
+    print_r($response);
+    
 } catch (Exception $e) {
     echo $e->getMessage();
 }
