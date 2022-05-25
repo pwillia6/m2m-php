@@ -56,4 +56,18 @@ class AUSKey
         }
         throw new Exception("This credential (" . $this->id. ") isn't found in the AUSKey.");
     }
+
+    public function getIds()
+    {
+	$ids = array();
+        foreach ($this->credentials->credential as $d => $cred) {
+            foreach ($cred->attributes() as $name => $value) {
+                if ($name=='id') {
+                    $ids[] = "$value";
+                }
+            }
+        }
+        return $ids;
+    }
+
 }

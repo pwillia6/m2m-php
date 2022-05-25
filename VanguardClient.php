@@ -36,8 +36,26 @@ class VanguardClient extends SoapHelper
         parent::__construct();
         $this->atoUrl = $env=='PROD' ? self::VANURL_PROD : self::VANURL_TEST;
         $this->usiUrl = $env=='PROD' ? self::USIRUL_PROD : self::USIRUL_TEST;
+
         $this->loadAuskey($auskey, $password, $auskey_id);
         $this->dumpPath = $dump_path;
+    }
+
+    public function expireDate() {
+        $cred = $this->auskey->getCredential();
+        $expires = "$cred->notAfter";
+        return $expires;
+    }
+
+    public function hasExpired() {
+
+	$expires = $this->expireDate();
+        
+        $now = new DateTime();
+        $now->setTimezone(new DateTimeZone('UTC'));
+        $now = $now->format('c');
+        
+        return $now > $expires;
     }
 
     /* Dump contents of doc to file */

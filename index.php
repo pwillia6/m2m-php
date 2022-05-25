@@ -12,6 +12,14 @@ $record = array(
 
 try {
     $usi = new VanguardClient('TEST', 'keystore-test.xml', 'Password1!', 'ABRD:27809366375_USIMachine');
+
+    $expired = $usi->hasExpired();
+    echo "Expired: " . ($expired ? 'True' : 'False') . "\n";
+    if ($expired) {
+       echo "Key store has expired quitting\n";
+       exit;
+    }
+
     $response = $usi->verifyUSI(
         $record['OrgCode'], 
         $record['USI'], 
