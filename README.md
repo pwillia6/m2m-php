@@ -1,5 +1,13 @@
 # m2m-php
 
+## Help 
+
+If you are looking at this with regard to Web Service Version 5 please raise an issue so I can contact you.   
+
+You can also request to be added as a contributor.
+
+I need to update this code to work with Web Service Version 5.
+
 ## Original Source
 https://www.usi.gov.au/developers/sample-code
 
