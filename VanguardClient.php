@@ -11,12 +11,12 @@ require_once 'AUSKey.php';
 class VanguardClient extends SoapHelper
 {
     const ACTION_ISSUE = 'http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue';
-    const ACTION_ISSUE_VERIFY = 'http://usi.gov.au/2020/ws/VerifyUSI';
+    const ACTION_ISSUE_VERIFY = 'http://usi.gov.au/2022/ws/VerifyUSI';
 
-    const USIRUL_PROD = 'https://portal.usi.gov.au/Service/UsiService.svc';
+    const USIRUL_PROD = 'https://portal.usi.gov.au/service/v5/usiservice.svc';
     const VANURL_PROD = 'https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc';
 
-    const USIRUL_TEST = 'https://3pt.portal.usi.gov.au/service/usiservice.svc';
+    const USIRUL_TEST = 'https://3pt.https://portal.usi.gov.au/service/v5/usiservice.svc';
     const VANURL_TEST = 'https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc';
 
     private $auskey;
@@ -120,8 +120,8 @@ class VanguardClient extends SoapHelper
             throw $ex;
         }
 
-        $xml = new SimpleXMLElement($response); //, 0, FALSE, 'http://usi.gov.au/2020/ws');
-        $xml->registerXPathNamespace("ws", "http://usi.gov.au/2020/ws");
+        $xml = new SimpleXMLElement($response); //, 0, FALSE, 'http://usi.gov.au/2022/ws');
+        $xml->registerXPathNamespace("ws", "http://usi.gov.au/2022/ws");
         $response = $xml->xpath("//ws:VerifyUSIResponse")[0];
 
         /* Convert result into an array instead of simpleXMLElement */

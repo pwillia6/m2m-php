@@ -3,7 +3,7 @@
 include "VanguardClient.php";
 
 $record = array(
-    'OrgCode' => 'VA1803',
+    'OrgCode' => '970002',
     'USI'     => 'GSR3R49PPX',
     'FirstName' => 'margaret',
     'FamilyName' => 'Michael',
