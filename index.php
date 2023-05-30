@@ -3,7 +3,7 @@
 include "VanguardClient.php";
 
 $record = array(
-    'OrgCode' => '970002',
+    'OrgCode' => 'VR1001',
     'USI'     => 'GSR3R49PPX',
     'FirstName' => 'margaret',
     'FamilyName' => 'Michael',
@@ -11,7 +11,7 @@ $record = array(
 );
 
 try {
-    $usi = new VanguardClient('TEST', 'keystore-test.xml', 'Password1!', 'ABRD:27809366375_USIMachine');
+    $usi = new VanguardClient('TEST', 'keystore-test.xml', 'Password1!', 'ABRD:27809366375_USIMachine', '/home/www/m2m-php/trace');
 
     $expired = $usi->hasExpired();
     echo "Expired: " . ($expired ? 'True' : 'False') . "\n";

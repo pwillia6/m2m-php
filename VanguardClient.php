@@ -16,7 +16,7 @@ class VanguardClient extends SoapHelper
     const USIRUL_PROD = 'https://portal.usi.gov.au/service/v5/usiservice.svc';
     const VANURL_PROD = 'https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc';
 
-    const USIRUL_TEST = 'https://3pt.https://portal.usi.gov.au/service/v5/usiservice.svc';
+    const USIRUL_TEST = 'https://3pt.portal.usi.gov.au/service/v5/usiservice.svc';
     const VANURL_TEST = 'https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc';
 
     private $auskey;
@@ -119,18 +119,25 @@ class VanguardClient extends SoapHelper
         } catch (Exception $ex) {
             throw $ex;
         }
-
-        $xml = new SimpleXMLElement($response); //, 0, FALSE, 'http://usi.gov.au/2022/ws');
+        $xml = new SimpleXMLElement($rawResponse = $response); //, 0, FALSE, 'http://usi.gov.au/2022/ws');
         $xml->registerXPathNamespace("ws", "http://usi.gov.au/2022/ws");
-        $response = $xml->xpath("//ws:VerifyUSIResponse")[0];
 
-        /* Convert result into an array instead of simpleXMLElement */
-        $output = array();
-        foreach ($response as $name => $value) {
-            $output[$name] = "$value";
+        $response = $xml->xpath("//ws:VerifyUSIResponse");
+        if (count($response)>0) {
+
+            $response = $response[0];
+            /* Convert result into an array instead of simpleXMLElement */
+            $output = array();
+            foreach ($response as $name => $value) {
+                $output[$name] = "$value";
+            }
+            return $output;
         }
+echo $rawResponse; exit;
+        //* We have a failure
+        $output = array();
+        $output['_error'] = $rawResponse ;
 
-        return $output;
     }
 
     private function buildRSTdocument()
