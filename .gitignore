@@ -6,3 +6,5 @@ response-usi.xml
 response.xml
 /secrets
 /vendor
+keystore-test.xml
+trace

@@ -59,9 +59,14 @@ class VanguardClient extends SoapHelper
     }
 
     /* Dump contents of doc to file */
-    private function debug($name) {
+    private function debug($name, $text=null) {
         if (!empty($this->dumpPath)) {
-            $this->doc->save($this->dumpPath .  '/' . $name, FILE_APPEND);
+            if ($text===null) {
+                $this->doc->save($this->dumpPath .  '/' . $name, FILE_APPEND);
+            } else {
+                file_put_contents($this->dumpPath .  '/' . $name, $text, FILE_APPEND);
+            }
+            
         }
     }
 
@@ -122,6 +127,8 @@ class VanguardClient extends SoapHelper
         $xml = new SimpleXMLElement($rawResponse = $response); //, 0, FALSE, 'http://usi.gov.au/2022/ws');
         $xml->registerXPathNamespace("ws", "http://usi.gov.au/2022/ws");
 
+        $this->debug('verify_reponse.xml', $rawResponse);
+
         $response = $xml->xpath("//ws:VerifyUSIResponse");
         if (count($response)>0) {
 
@@ -132,11 +139,12 @@ class VanguardClient extends SoapHelper
                 $output[$name] = "$value";
             }
             return $output;
+        } else {
+            //* We have a failure
+            $output = array();
+            $output['_error'] = $rawResponse ;
+            return $output;
         }
-echo $rawResponse; exit;
-        //* We have a failure
-        $output = array();
-        $output['_error'] = $rawResponse ;
 
     }
 
