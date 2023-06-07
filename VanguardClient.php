@@ -11,12 +11,12 @@ require_once 'AUSKey.php';
 class VanguardClient extends SoapHelper
 {
     const ACTION_ISSUE = 'http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue';
-    const ACTION_ISSUE_VERIFY = 'http://usi.gov.au/2020/ws/VerifyUSI';
+    const ACTION_ISSUE_VERIFY = 'http://usi.gov.au/2022/ws/VerifyUSI';
 
-    const USIRUL_PROD = 'https://portal.usi.gov.au/Service/UsiService.svc';
+    const USIRUL_PROD = 'https://portal.usi.gov.au/service/v5/usiservice.svc';
     const VANURL_PROD = 'https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc';
 
-    const USIRUL_TEST = 'https://3pt.portal.usi.gov.au/service/usiservice.svc';
+    const USIRUL_TEST = 'https://3pt.portal.usi.gov.au/service/v5/usiservice.svc';
     const VANURL_TEST = 'https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc';
 
     private $auskey;
@@ -59,9 +59,14 @@ class VanguardClient extends SoapHelper
     }
 
     /* Dump contents of doc to file */
-    private function debug($name) {
+    private function debug($name, $text=null) {
         if (!empty($this->dumpPath)) {
-            $this->doc->save($this->dumpPath .  '/' . $name, FILE_APPEND);
+            if ($text===null) {
+                $this->doc->save($this->dumpPath .  '/' . $name, FILE_APPEND);
+            } else {
+                file_put_contents($this->dumpPath .  '/' . $name, $text, FILE_APPEND);
+            }
+            
         }
     }
 
@@ -119,18 +124,28 @@ class VanguardClient extends SoapHelper
         } catch (Exception $ex) {
             throw $ex;
         }
+        $xml = new SimpleXMLElement($rawResponse = $response); //, 0, FALSE, 'http://usi.gov.au/2022/ws');
+        $xml->registerXPathNamespace("ws", "http://usi.gov.au/2022/ws");
 
-        $xml = new SimpleXMLElement($response); //, 0, FALSE, 'http://usi.gov.au/2020/ws');
-        $xml->registerXPathNamespace("ws", "http://usi.gov.au/2020/ws");
-        $response = $xml->xpath("//ws:VerifyUSIResponse")[0];
+        $this->debug('verify_reponse.xml', $rawResponse);
 
-        /* Convert result into an array instead of simpleXMLElement */
-        $output = array();
-        foreach ($response as $name => $value) {
-            $output[$name] = "$value";
+        $response = $xml->xpath("//ws:VerifyUSIResponse");
+        if (count($response)>0) {
+
+            $response = $response[0];
+            /* Convert result into an array instead of simpleXMLElement */
+            $output = array();
+            foreach ($response as $name => $value) {
+                $output[$name] = "$value";
+            }
+            return $output;
+        } else {
+            //* We have a failure
+            $output = array();
+            $output['_error'] = $rawResponse ;
+            return $output;
         }
 
-        return $output;
     }
 
     private function buildRSTdocument()

@@ -19,7 +19,7 @@ class SoapHelper
     const NS_SIGN_PREFIX = 'ds';
     const NS_WST = 'http://docs.oasis-open.org/ws-sx/ws-trust/200512';
     const NS_WST_PREFIX = 'trust';
-    const NS_USI = 'http://usi.gov.au/2020/ws';
+    const NS_USI = 'http://usi.gov.au/2022/ws';
     const NS_USI_PREFIX = 'ws';
     const NS_WSP = 'http://schemas.xmlsoap.org/ws/2004/09/policy';
     const NS_WSP_PREFIX = 'wsp';

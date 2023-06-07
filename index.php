@@ -3,18 +3,20 @@
 include "VanguardClient.php";
 
 $record = array(
-    'OrgCode' => 'VA1803',
-    'USI'     => 'GSR3R49PPX',
-    'FirstName' => 'margaret',
-    'FamilyName' => 'Michael',
-    'DateOfBirth' => '1990-05-31'
+    'OrgCode' => 'VA1803', // VA1803
+    'USI'     => 'BNGH7C75FN',
+    'FirstName' => 'Maryam',
+    'FamilyName' => 'Fredrick',
+    'DateOfBirth' => '1983-06-13'
 );
 
+
 try {
-    $usi = new VanguardClient('TEST', 'keystore-test.xml', 'Password1!', 'ABRD:27809366375_USIMachine');
+    $usi = new VanguardClient('TEST', 'keystore-test.xml', 'Password1!', 'ABRD:27809366375_USIMachine', '/home/www/m2m-php/trace');
 
     $expired = $usi->hasExpired();
-    echo "Expired: " . ($expired ? 'True' : 'False') . "\n";
+    $r =(object) array('Expired' => $expired);
+    //echo json_encode($r) . "\n";
     if ($expired) {
        echo "Key store has expired quitting\n";
        exit;
@@ -27,7 +29,7 @@ try {
         $record['FamilyName'], 
         $record['DateOfBirth']
     /* './' optional path to dump requests and responses */);
-    print_r($response);
+    echo json_encode($response) . "\n";
     
 } catch (Exception $e) {
     echo $e->getMessage();
